@@ -1,0 +1,9 @@
+Understanding Byte Pair Encoding (BPE)
+Tokenization: the process of breaking down text into individual units called tokens. Tokens can be words, characters, or subwords
+Subword tokenization: BPE breaks down words into subwords based on their frequency in a training corpus
+Frequency-based merging: BPE merges the most frequent pairs of characters or subwords in the corpus. This process repeats until a predetermined vocabulary size is reached
+Vocabulary: The resulting vocabulary consists of subwords that are used to represent words in the text. These subwords can be used to encode and decode text
+Token IDs: Each subword in the vocabulary is assigned a unique ID which is used to represent the subword in the encoded text
+Unknown tokens: <unk> is used when a token is not found in the vocabulary and is given a special ID
+Encoding: Breaking down text into subwords and assigning token IDs
+Decoding: Reconstructing the original text from token IDs

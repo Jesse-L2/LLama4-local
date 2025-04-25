@@ -5,22 +5,22 @@ class BPETokenizer:
     def __init__(self, vocab_size, min_freq=2):
         self.vocab_size = vocab_size
         self.min_freq = min_freq
-        self.tokens = {}
-        self.token_id = {}
-        self.id_token = {}
+        self.tokens = {} # Stores tokens
+        self.token_id = {} # Maps tokens to their ID
+        self.id_token = {} # Maps IDs to tokens
 
     def tokenize(self, text):
-        # Simple whitespace tokenizer for initial tokenization
+        # Takes a string of text, splits on whitespace, and returns a list of tokens
         tokens = text.split()
         return tokens
 
     def train(self, corpus):
-        # Tokenize the corpus and count token frequencies
-        token_freqs = collections.defaultdict(int)
+        # Tokenize the corpus (a list of strings)
+        token_freqs = collections.defaultdict(int) # if token not present, store value as 0
         for text in corpus:
             tokens = self.tokenize(text)
             for token in tokens:
-                token_freqs[token] += 1
+                token_freqs[token] += 1 # increment frequency for each time present
         
         # Initialize vocabulary with unique characters
         vocab = set()
@@ -57,6 +57,9 @@ class BPETokenizer:
             self.id_token[len(self.id_token)] = token
 
     def encode(self, text):
+        """
+        Takes a string of text as input and returns a list of encoded tokens
+        """
         tokens = self.tokenize(text)
         encoded = []
         for token in tokens:
@@ -66,11 +69,14 @@ class BPETokenizer:
                     encoded_token.append(self.token_id[char])
                 else:
                     # Handle unknown characters
-                    encoded_token.append(len(self.token_id))  # Assuming last id + 1 is <unk>
+                    encoded_token.append(len(self.token_id))  # Assume last id + 1 = <unk> (unknown character)
             encoded.append(encoded_token)
         return encoded
 
     def decode(self, encoded):
+        """"
+        Takes a list of encoded tokens as input and returns a string of text
+        """
         decoded = []
         for encoded_token in encoded:
             token = ''.join([self.id_token.get(id, '<unk>') for id in encoded_token])
